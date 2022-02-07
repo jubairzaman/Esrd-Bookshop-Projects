@@ -38,6 +38,7 @@ export class AuthorServicesService {
   }
 
   findByName(name: any): Observable<Author[]> {
+    console.log(baseUrl+'?name='+name);
     return this.http.get<Author[]>(`${baseUrl}?name=${name}`);
   }
 
