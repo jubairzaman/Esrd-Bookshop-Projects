@@ -1,7 +1,8 @@
 package com.vinternship.mcmsbackend.controllers;
 
 import com.vinternship.mcmsbackend.models.Author;
-import com.vinternship.mcmsbackend.repositories.AuthorRepository;
+import com.vinternship.mcmsbackend.models.Book;
+import com.vinternship.mcmsbackend.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,104 +17,105 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class BookController {
     @Autowired
-    AuthorRepository authorRepository;
+    BookRepository bookRepository;
 
-    @GetMapping("/books")
-    public ResponseEntity<List<Author>> getAllAuthors(@RequestParam(required = false) String name) {
+    @GetMapping("/api/books")
+    public ResponseEntity<List<Author>> getAllAuthors(@RequestParam(required = false) String title) {
         try {
-            List<Author> authors = new ArrayList<Author>();
+            List<Book> books = new ArrayList<Book>();
 
-            if (name == null) {
-                authorRepository.findAll().forEach(authors::add);
+            if (title == null) {
+                bookRepository.findAll().forEach(books::add);
             } else {
-                authorRepository.findAuthorsByName(name).forEach(authors::add);
+                bookRepository.findBookByTitle(title).forEach(books::add);
             }
 
-            if (authors.isEmpty()) {
+            if (books.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            return new ResponseEntity<>(authors, HttpStatus.OK);
+            return new ResponseEntity <>(null, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/books/{id}")
-    public ResponseEntity<Author> getAuthorById(@PathVariable("id") String id) {
-        Optional<Author> authorData = authorRepository.findById(id);
+    @GetMapping("/api/books/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable("id") String id) {
+        Optional<Book> bookData = bookRepository.findById(id);
 
-        if (authorData.isPresent()) {
-            return new ResponseEntity<>(authorData.get(), HttpStatus.OK);
+        if (bookData.isPresent()) {
+            return new ResponseEntity<>(bookData.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping("/books")
-    public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
+    @PostMapping("/api/books")
+    public ResponseEntity<Book> createBook(@RequestBody Book book) {
         try {
-            Author _author = authorRepository.save(new Author(
-                    author.getId(),
-                    author.getName(),
-                    author.getAge(),
-                    author.getPhone(),
-                    author.getEmail(),
-                    author.getGenre(),
-                    author.getRegistration()
+            Book _book = bookRepository.save(new Book(
+                    book.getId(),
+                    book.getTitle(),
+                    book.getPrice(),
+                    book.getAuthor(),
+                    book.getPublishar(),
+                    book.getGenre(),
+                    book.getRegistration()
             ));
-            return new ResponseEntity<>(_author, HttpStatus.CREATED);
+            return new ResponseEntity<>(_book, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/books/{id}")
-    public ResponseEntity<Author> updateAuthor(@PathVariable("id") String id, @RequestBody Author author) {
-        Optional<Author> authorData = authorRepository.findById(id);
+    @PutMapping("/api/books/{id}")
+    public ResponseEntity<Book> updateAuthor(@PathVariable("id") String id, @RequestBody Book book) {
+        Optional<Book> bookData = bookRepository.findById(id);
 
-        if (authorData.isPresent()) {
-            Author _author = authorData.get();
-            _author.setName(author.getName());
-            _author.setAge(author.getAge());
-            _author.setPhone(author.getPhone());
-            _author.setEmail(author.getEmail());
-            _author.setGenre(author.getGenre());
-            return new ResponseEntity<>(authorRepository.save(_author), HttpStatus.OK);
+        if (bookData.isPresent()) {
+            Book _book = bookData.get();
+            _book.setTitle(book.getTitle());
+            _book.setPrice(book.getPrice());
+            _book.setAuthor(book.getAuthor());
+            _book.setGenre(book.getGenre());
+            _book.setYear_of_publishing(book.getYear_of_publishing());
+            _book.setPublishar(book.getPublishar());
+            return new ResponseEntity<>(bookRepository.save(_book), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/books/{id}")
+    @DeleteMapping("/api/books/{id}")
     public ResponseEntity<HttpStatus> deleteAuthor(@PathVariable("id") String id) {
         try {
-            authorRepository.deleteById(id);
+            bookRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("/books")
+    @DeleteMapping("/api/books")
     public ResponseEntity<HttpStatus> deleteAllAuthors() {
         try {
-            authorRepository.deleteAll();
+            bookRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/books/age/{age}")
-    public ResponseEntity<List<Author>> findByAuthorAge(@PathVariable("age") Integer age) {
+    @GetMapping("/api/books/age/{age}")
+    public ResponseEntity<List<Book>> findByAuthorAge(@PathVariable("title") String title) {
         try {
-            List<Author> authors = authorRepository.findAuthorsByAge(age);
+            List<Book> books = bookRepository.findBookByTitle(title);
 
-            if (authors.isEmpty()) {
+            if (books.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(authors, HttpStatus.OK);
+            return new ResponseEntity<>(books, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

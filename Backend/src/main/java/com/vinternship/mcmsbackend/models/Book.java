@@ -34,6 +34,9 @@ public class Book {
         this.registration = registration;
         }
 
+    public Book(String id, String title, int price, String author, String publishar, List<String> genre, Date registration) {
+
+    }
 
 
     public String getId() {
