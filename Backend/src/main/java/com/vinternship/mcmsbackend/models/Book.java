@@ -91,6 +91,8 @@ public class Book {
         return registration;
     }
 
+    public void add() {
+    }
 }
 
 
