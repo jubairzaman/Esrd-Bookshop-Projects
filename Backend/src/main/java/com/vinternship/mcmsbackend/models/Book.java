@@ -1,4 +1,5 @@
 package com.vinternship.mcmsbackend.models;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,20 +23,19 @@ public class Book {
     private Date registration;
 
 
-
-   public Book (String id, String title, int price, int year_of_publishing, String author, List<String> genre,String publishar, Date registration){
+    public Book(String id, String title, int price, int year_of_publishing, String author, List<String> genre, String publishar, Date registration) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.year_of_publishing = year_of_publishing;
         this.author = author;
         this.genre = genre;
-       this.publishar = publishar;
+        this.publishar = publishar;
         this.registration = registration;
-        }
+    }
 
-    public Book(String id, String title, int price, String author, String publishar, List<String> genre, Date registration) {
-
+    public Book(String title) {
+        this.title = title;
     }
 
 
@@ -86,6 +86,7 @@ public class Book {
     public String getPublishar() {
         return publishar;
     }
+
     public void setPublishar(String publishar) {
         this.publishar = publishar;
     }

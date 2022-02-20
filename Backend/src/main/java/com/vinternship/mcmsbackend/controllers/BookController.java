@@ -1,6 +1,6 @@
 package com.vinternship.mcmsbackend.controllers;
 
-import com.vinternship.mcmsbackend.models.Author;
+
 import com.vinternship.mcmsbackend.models.Book;
 import com.vinternship.mcmsbackend.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class BookController {
     @Autowired
     BookRepository bookRepository;
 
-    @GetMapping("/api/books")
-    public ResponseEntity<List<Author>> getAllAuthors(@RequestParam(required = false) String title) {
+    @GetMapping("/books")
+    public ResponseEntity<List<Book>> getAllAuthors(@RequestParam(required = false) String title) {
         try {
             List<Book> books = new ArrayList<Book>();
 
@@ -40,7 +40,7 @@ public class BookController {
         }
     }
 
-    @GetMapping("/api/books/{id}")
+    @GetMapping("/books/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable("id") String id) {
         Optional<Book> bookData = bookRepository.findById(id);
 
@@ -51,25 +51,17 @@ public class BookController {
         }
     }
 
-    @PostMapping("/api/books")
+    @PostMapping("/books")
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
         try {
-            Book _book = bookRepository.save(new Book(
-                    book.getId(),
-                    book.getTitle(),
-                    book.getPrice(),
-                    book.getAuthor(),
-                    book.getPublishar(),
-                    book.getGenre(),
-                    book.getRegistration()
-            ));
+            Book _book = bookRepository.save(book);
             return new ResponseEntity<>(_book, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/api/books/{id}")
+    @PutMapping("/books/{id}")
     public ResponseEntity<Book> updateAuthor(@PathVariable("id") String id, @RequestBody Book book) {
         Optional<Book> bookData = bookRepository.findById(id);
 
@@ -87,7 +79,7 @@ public class BookController {
         }
     }
 
-    @DeleteMapping("/api/books/{id}")
+    @DeleteMapping("/books/{id}")
     public ResponseEntity<HttpStatus> deleteAuthor(@PathVariable("id") String id) {
         try {
             bookRepository.deleteById(id);
@@ -97,7 +89,7 @@ public class BookController {
         }
     }
 
-    @DeleteMapping("/api/books")
+    @DeleteMapping("/books")
     public ResponseEntity<HttpStatus> deleteAllAuthors() {
         try {
             bookRepository.deleteAll();
@@ -107,7 +99,7 @@ public class BookController {
         }
     }
 
-    @GetMapping("/api/books/age/{age}")
+    @GetMapping("/books/age/{age}")
     public ResponseEntity<List<Book>> findByAuthorAge(@PathVariable("title") String title) {
         try {
             List<Book> books = bookRepository.findBookByTitle(title);
