@@ -1,4 +1,5 @@
 package com.vinternship.mcmsbackend.models;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -6,15 +7,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import java.util.List;
 
-@Document(collection = "book")
+@Document(collection = "bookShop")
 
 public class BookShop {
 
     @Id
     private String id;
-    private String shopname;
-    private int shop_number;
-    private String Location;
+    private String shopName;
+    private int shopNumber;
+    private String location;
     private List<String> books;
     private String contactNo;
     private String email;
@@ -22,20 +23,19 @@ public class BookShop {
     private Date registration;
 
 
-
-   public BookShop(String id, String title, int price, int year_of_publishing, String author, List<String> genre, String publishar, Date registration){
+    public BookShop(String id, String shopName, int shopNumber, String location,List<String> books, String contactNo, String email, Date registration) {
         this.id = id;
-        this.shopname = shopname;
-        this.shop_number = shop_number;
-        this.Location = Location ;
+        this.shopName = shopName;
+        this.shopNumber = shopNumber;
+        this.location = location;
         this.books = books;
         this.contactNo = contactNo;
-       this.email = email;
+        this.email = email;
         this.registration = registration;
-        }
+    }
 
-    public BookShop(String id, String shopname, int shop_number, String location, List<String> books,String ContactNo ,String email, Date registration) {
-
+    public BookShop(String shopName) {
+        this.shopName = shopName;
     }
 
 
@@ -43,30 +43,30 @@ public class BookShop {
         return id;
     }
 
-    public String getShopname() {
-        return shopname;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setShopname(String shopname) {
-        this.shopname = shopname;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
-    public int getShop_number() {
-        return shop_number;
+    public int getShopNumber() {
+        return shopNumber;
     }
 
-    public void setShop_number(int shop_number) {
-        this.shop_number = shop_number;
+    public void setShopNumber(int shopNumber) {
+        this.shopNumber = shopNumber;
     }
-
 
     public String getLocation() {
-        return Location;
+        return location;
     }
 
-    public void setLocation(String Location) {
-        this.Location = Location;
+    public void setLocation(String location) {
+        this.location = location;
     }
+
 
     public List<String> getBooks() {
         return books;
@@ -76,11 +76,22 @@ public class BookShop {
         this.books = books;
     }
 
+
     public String getContactNo() {
         return contactNo;
     }
+
     public void setContactNo(String contactNo) {
         this.contactNo = contactNo;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Date getRegistration() {
@@ -90,5 +101,4 @@ public class BookShop {
     public void add() {
     }
 }
-
 
