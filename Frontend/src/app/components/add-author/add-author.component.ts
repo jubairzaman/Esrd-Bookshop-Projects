@@ -50,8 +50,8 @@ export class AddAuthorComponent implements OnInit {
 
     this.authorService.create(data)
       .subscribe({
-        next: (res) => {
-          console.log(res);
+        next: (result) => {
+          console.log(result);
           this.submitted = true;
         },
         error: (e) => console.error(e)

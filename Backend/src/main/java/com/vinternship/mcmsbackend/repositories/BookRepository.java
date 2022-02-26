@@ -7,6 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface BookRepository extends MongoRepository<Book, String> {
-    List<Book> findBookByTitle(String title);
-    List<Book> findBookByAuthor(String author);
+    List<Book>findBookByTitleContaining(String title);
 }

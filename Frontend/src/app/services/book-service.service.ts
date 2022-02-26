@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Author} from "../models/author";
+import {Books} from "../models/books";
 
-const baseUrl = 'http://localhost:8080/api/authors'
+const baseUrl = 'http://localhost:8080/api/books'
+
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorServicesService {
+export class BookServiceService {
 
   constructor(private http: HttpClient) {
-
   }
 
-  getAll(): Observable<Author[]> {
-    return this.http.get<Author[]>(baseUrl);
+  getAll(): Observable<Books[]> {
+    return this.http.get<Books[]>(baseUrl);
   }
 
-  get(id: any): Observable<Author> {
+  get(id: any): Observable<Books> {
     return this.http.get(`${baseUrl}/${id}`);
   }
 
@@ -37,9 +37,9 @@ export class AuthorServicesService {
     return this.http.delete(baseUrl);
   }
 
-  findByName(name: any): Observable<Author[]> {
-    console.log(baseUrl+'?name='+name);
-    return this.http.get<Author[]>(`${baseUrl}?name=${name}`);
+  findBytitle(title: any): Observable<Books[]> {
+    console.log(baseUrl+'?title='+title);
+    return this.http.get<Books[]>(`${baseUrl}?title=${title}`);
   }
 
 }

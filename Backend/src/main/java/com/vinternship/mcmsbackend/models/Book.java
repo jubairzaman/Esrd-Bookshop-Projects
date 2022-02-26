@@ -15,7 +15,7 @@ public class Book {
     private String id;
     private String title;
     private int price;
-    private int year_of_publishing;
+    private int yearofpublishing;
     private String author;
     private List<String> genre;
     private String publishar;
@@ -23,24 +23,21 @@ public class Book {
     private Date registration;
 
 
-    public Book(String id, String title, int price, int year_of_publishing, String author, List<String> genre, String publishar, Date registration) {
-        this.id = id;
+    public Book(String title, int price, int yearofpublishing, String author, List<String> genre, String publishar) {
         this.title = title;
         this.price = price;
-        this.year_of_publishing = year_of_publishing;
+        this.yearofpublishing = yearofpublishing;
         this.author = author;
         this.genre = genre;
         this.publishar = publishar;
-        this.registration = registration;
     }
-
-    public Book(String title) {
-        this.title = title;
-    }
-
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -59,12 +56,12 @@ public class Book {
         this.price = price;
     }
 
-    public int getYear_of_publishing() {
-        return year_of_publishing;
+    public int getYearofpublishing() {
+        return yearofpublishing;
     }
 
-    public void setYear_of_publishing(int year_of_publishing) {
-        this.year_of_publishing = year_of_publishing;
+    public void setYearofpublishing(int yearofpublishing) {
+        this.yearofpublishing = yearofpublishing;
     }
 
     public String getAuthor() {
@@ -95,7 +92,8 @@ public class Book {
         return registration;
     }
 
-    public void add() {
+    public void setRegistration(Date registration) {
+        this.registration = registration;
     }
 }
 

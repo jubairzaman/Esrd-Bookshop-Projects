@@ -1,6 +1,7 @@
 package com.vinternship.mcmsbackend.controllers;
 
 
+import com.vinternship.mcmsbackend.models.Author;
 import com.vinternship.mcmsbackend.models.Book;
 import com.vinternship.mcmsbackend.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
 public class BookController {
@@ -20,25 +21,26 @@ public class BookController {
     BookRepository bookRepository;
 
     @GetMapping("/books")
-    public ResponseEntity<List<Book>> getAllAuthors(@RequestParam(required = false) String title) {
+    public ResponseEntity<List<Book>> getAllBooks(@RequestParam(required = true) String title) {
         try {
             List<Book> books = new ArrayList<Book>();
 
             if (title == null) {
                 bookRepository.findAll().forEach(books::add);
             } else {
-                bookRepository.findBookByTitle(title).forEach(books::add);
+                bookRepository.findBookByTitleContaining(title).forEach(books::add);
             }
 
             if (books.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            return new ResponseEntity <>(null, HttpStatus.OK);
+            return new ResponseEntity<>(books, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @GetMapping("/books/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable("id") String id) {
@@ -71,7 +73,7 @@ public class BookController {
             _book.setPrice(book.getPrice());
             _book.setAuthor(book.getAuthor());
             _book.setGenre(book.getGenre());
-            _book.setYear_of_publishing(book.getYear_of_publishing());
+            _book.setYearofpublishing(book.getYearofpublishing());
             _book.setPublishar(book.getPublishar());
             return new ResponseEntity<>(bookRepository.save(_book), HttpStatus.OK);
         } else {
@@ -102,7 +104,7 @@ public class BookController {
     @GetMapping("/books/age/{age}")
     public ResponseEntity<List<Book>> findByAuthorAge(@PathVariable("title") String title) {
         try {
-            List<Book> books = bookRepository.findBookByTitle(title);
+            List<Book> books = bookRepository.findBookByTitleContaining(title);
 
             if (books.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
